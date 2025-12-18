@@ -1,5 +1,6 @@
 // Main.java — Students version
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class Main {
@@ -9,10 +10,35 @@ public class Main {
     static String[] commodities = {"Gold", "Oil", "Silver", "Wheat", "Copper"};
     static String[] months = {"January","February","March","April","May","June",
                               "July","August","September","October","November","December"};
-    
+    static int[][][] profits;
+
 
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
-    public static void loadData() {
+public static void loadData() {
+        profits = new int[MONTHS][DAYS][COMMS];
+        Scanner reader;
+        try {
+            for (int i = 0; i < MONTHS; i++) {
+                reader = new Scanner(Paths.get("Data_Files/" + months[i] + ".txt"));
+                reader.nextLine();
+                while (reader.hasNextLine()) {
+                    String[] splitLine = reader.nextLine().split(",");
+                    int dayIndex = Integer.parseInt(splitLine[0]) - 1;
+                    String commInput = splitLine[1];
+                    int commsIndex = 0;
+                    for (int j = 0; j < COMMS; j++) {
+                        if (commInput.equals(commodities[j])) {
+                            commsIndex = j;
+                            break;
+                        }
+                    }
+                    int profit = Integer.parseInt(splitLine[2]);
+                    profits[i][dayIndex][commsIndex] = profit;
+                }
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
@@ -61,4 +87,5 @@ public class Main {
         loadData();
         System.out.println("Data loaded – ready for queries");
     }
+
 }

@@ -1,4 +1,5 @@
 // Main.java — Students version
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
@@ -8,13 +9,12 @@ public class Main {
     static final int DAYS = 28;
     static final int COMMS = 5;
     static String[] commodities = {"Gold", "Oil", "Silver", "Wheat", "Copper"};
-    static String[] months = {"January","February","March","April","May","June",
-                              "July","August","September","October","November","December"};
+    static String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     static int[][][] profits;
 
 
     // ======== REQUIRED METHOD LOAD DATA (Students fill this) ========
-public static void loadData() {
+    public static void loadData() {
         profits = new int[MONTHS][DAYS][COMMS];
         Scanner reader;
         try {
@@ -37,14 +37,32 @@ public static void loadData() {
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("File does not exists!");
         }
     }
 
     // ======== 10 REQUIRED METHODS (Students fill these) ========
 
     public static String mostProfitableCommodityInMonth(int month) {
-        return "DUMMY"; 
+        if (month < 0 || month > 11) {
+            return "INVALID_MONTH";
+        }
+        int[] comms = new int[COMMS];
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < COMMS; j++) {
+                int profit = profits[month][i][j];
+                comms[j] += profit;
+            }
+        }
+        int max = Integer.MIN_VALUE;
+        int index = 0;
+        for (int i = 0; i < comms.length; i++) {
+            if (comms[i] >= max) {
+                max = comms[i];
+                index = i;
+            }
+        }
+        return commodities[index] + " " + max;
     }
 
     public static int totalProfitOnDay(int month, int day) {
@@ -55,32 +73,32 @@ public static void loadData() {
         return 1234;
     }
 
-    public static int bestDayOfMonth(int month) { 
-        return 1234; 
-    }
-    
-    public static String bestMonthForCommodity(String comm) { 
-        return "DUMMY"; 
+    public static int bestDayOfMonth(int month) {
+        return 1234;
     }
 
-    public static int consecutiveLossDays(String comm) { 
-        return 1234; 
-    }
-    
-    public static int daysAboveThreshold(String comm, int threshold) { 
-        return 1234; 
+    public static String bestMonthForCommodity(String comm) {
+        return "DUMMY";
     }
 
-    public static int biggestDailySwing(int month) { 
-        return 1234; 
+    public static int consecutiveLossDays(String comm) {
+        return 1234;
     }
-    
-    public static String compareTwoCommodities(String c1, String c2) { 
-        return "DUMMY is better by 1234"; 
+
+    public static int daysAboveThreshold(String comm, int threshold) {
+        return 1234;
     }
-    
-    public static String bestWeekOfMonth(int month) { 
-        return "DUMMY"; 
+
+    public static int biggestDailySwing(int month) {
+        return 1234;
+    }
+
+    public static String compareTwoCommodities(String c1, String c2) {
+        return "DUMMY is better by 1234";
+    }
+
+    public static String bestWeekOfMonth(int month) {
+        return "DUMMY";
     }
 
     public static void main(String[] args) {

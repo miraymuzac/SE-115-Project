@@ -37,7 +37,7 @@ public class Main {
                 }
             }
         } catch (IOException e) {
-            System.out.println("File does not exists!");
+            System.out.println("File does not exist!");
         }
     }
 
@@ -87,9 +87,9 @@ public class Main {
             return -99999;
         }
         int commsIndex = -1;
-        for (int j = 0; j < COMMS; j++) {
-            if (commodity.equals(commodities[j])) {
-                commsIndex = j;
+        for (int i = 0; i < COMMS; i++) {
+            if (commodity.equals(commodities[i])) {
+                commsIndex = i;
                 break;
             }
         }
@@ -99,7 +99,7 @@ public class Main {
         int total = 0;
         for (int i = 0; i < MONTHS; i++){
             for (int j = from; j <= to; j++){
-                total += profits[i][j][commsIndex];
+                total += profits[i][j-1][commsIndex];
             }
         }
         return total;
@@ -109,18 +109,18 @@ public class Main {
         if (month < 0 || month > 11) {
             return -1;
         }
-        int total[] = new int[DAYS];
+        int[] total = new int[DAYS];
         for (int i = 0; i < DAYS; i++) {
             for (int j = 0; j < COMMS; j++) {
                 total[i] += profits[month][i][j];
             }
         }
         int day = 0;
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < total.length; i++) {
             if (total[i] >= max) {
                 max = total[i];
-                day = i;
+                day = i + 1;
             }
         }
         return day;
@@ -137,14 +137,14 @@ public class Main {
         if (commsIndex == -1) {
             return "INVALID_COMMODITY";
         }
-        int total[] = new int[MONTHS];
+        int[] total = new int[MONTHS];
         for (int i = 0; i < MONTHS; i++) {
             for (int j = 0; j < DAYS; j++) {
                 total[i] += profits[i][j][commsIndex];
             }
         }
         int month = 0;
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         for (int i = 0; i < total.length; i++) {
             if (total[i] >= max) {
                 max = total[i];
@@ -211,6 +211,7 @@ public class Main {
         }
         return count;
     }
+
     public static int biggestDailySwing(int month) {
         if (month < 0 || month > 11) {
             return -99999;
@@ -274,6 +275,7 @@ public class Main {
         }
         return better;
     }
+
     public static String bestWeekOfMonth(int month) {
         if (month < 0 || month > 11) {
             return "INVALID_MONTH";
@@ -296,7 +298,7 @@ public class Main {
                 weeks[3] += dayProfits[i];
             }
         }
-        int max = 0;
+        int max = Integer.MIN_VALUE;
         int index = 0;
         for (int i = 0; i < weeks.length; i++) {
             if (weeks[i] > max) {
@@ -313,8 +315,3 @@ public class Main {
     }
 
 }
-
-
-
-
-

@@ -275,7 +275,36 @@ public class Main {
         return better;
     }
     public static String bestWeekOfMonth(int month) {
-        return "DUMMY";
+        if (month < 0 || month > 11) {
+            return "INVALID_MONTH";
+        }
+        int[] dayProfits = new int[DAYS];
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < COMMS; j++) {
+                dayProfits[i] += profits[month][i][j];
+            }
+        }
+        int[] weeks = new int[4];
+        for (int i = 0; i < DAYS; i++) {
+            if (i < 7) {
+                weeks[0] += dayProfits[i];
+            } else if (i < 14) {
+                weeks[1] += dayProfits[i];
+            } else if (i <21) {
+                weeks[2] += dayProfits[i];
+            } else {
+                weeks[3] += dayProfits[i];
+            }
+        }
+        int max = 0;
+        int index = 0;
+        for (int i = 0; i < weeks.length; i++) {
+            if (weeks[i] > max) {
+                max = weeks[i];
+                index = i + 1;
+            }
+        }
+        return "Week" + index + " " + max;
     }
 
     public static void main(String[] args) {
@@ -284,6 +313,7 @@ public class Main {
     }
 
 }
+
 
 
 

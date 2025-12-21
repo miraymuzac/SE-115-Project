@@ -212,13 +212,68 @@ public class Main {
         return count;
     }
     public static int biggestDailySwing(int month) {
-        return 1234;
+        if (month < 0 || month > 11) {
+            return -99999;
+        }
+        int[] total = new int[DAYS];
+        for (int i = 0; i < DAYS; i++) {
+            for (int j = 0; j < COMMS; j++) {
+                total[i] += profits[month][i][j];
+            }
+        }
+        int max = total[0];
+        int min = total[0];
+        for (int i = 1; i < total.length; i++) {
+            if (total[i] < min) {
+                min = total[i];
+            }
+            if (total[i] > max) {
+                max = total[i];
+            }
+        }
+        int difference = max - min;
+        return difference;
     }
 
     public static String compareTwoCommodities(String c1, String c2) {
-        return "DUMMY is better by 1234";
+        int commIndex1 = -1;
+        int commIndex2 = -1;
+        for (int i = 0; i < COMMS; i++) {
+            if (c1.equals(commodities[i])) {
+                commIndex1 = i;
+                break;
+            }
+        }
+        for (int i = 0; i < COMMS; i++) {
+            if (c2.equals(commodities[i])) {
+                commIndex2 = i;
+                break;
+            }
+        }
+        if (commIndex1 == -1 || commIndex2 == -1) {
+            return "INVALID_COMMODITY";
+        }
+        int c1total = 0;
+        int c2total = 0;
+        int x = 0;
+        String better = "";
+        for (int i = 0; i < MONTHS; i++) {
+            for (int j = 0; j < DAYS; j++) {
+                c1total += profits[i][j][commIndex1];
+                c2total += profits[i][j][commIndex2];
+            }
+        }
+        if (c1total > c2total) {
+            x = c1total - c2total;
+            better = commodities[commIndex1] + " is better by " + x;
+        } else if (c2total > c1total) {
+            x = c2total - c1total;
+            better = commodities[commIndex2] + " is better by " + x;
+        } else {
+            better = "Equal";
+        }
+        return better;
     }
-
     public static String bestWeekOfMonth(int month) {
         return "DUMMY";
     }
@@ -229,6 +284,7 @@ public class Main {
     }
 
 }
+
 
 
 
